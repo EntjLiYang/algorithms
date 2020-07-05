@@ -42,6 +42,7 @@ public class ForeachTreeWithoutRecursion {
 
         while (!queue.isEmpty()){
             int n = queue.size();
+
             List<Node> curLevel = new LinkedList<>();
 
             for (int i = 0; i < n; i++){
