@@ -173,46 +173,79 @@ public class Solution {
 
     // 25
     public ListNode reverseKGroup(ListNode head, int k) {
-        // 翻转前k个
-        ListNode cur = head; // cur为遍历链表时当前的节点
-        ListNode next = null; // next为得到一个k长度的子链表时切断翻转，要保持后面节点的引用
+        // 反转前k个作为整个链表的头
+        ListNode cur = head;
         int count = 1;
         while (count < k){
             cur = cur.next;
             count++;
         }
-        next = cur.next;
+        ListNode next = cur.next;
         cur.next = null;
+        ListNode preTail = head;
+        head = reverse(head);
+        cur = next;
         count = 1;
 
-        ListNode tail = head; // 当前遍历部分的前置链表尾部
-        head = reverse(head);
-
-        cur = next;
-        ListNode midHead = next; // 当前遍历部分的链表头部
-        ListNode midTail = null; // 当前遍历部分的链表尾部
+        // 遍历链表剩余部分，不断寻找k个为一组，切断与后续链表链接后反转
+        // 维护前置k个的tail，进行拼接
+        ListNode midHead = cur, midTail = null;
         while (cur != null){
-            if (count == k){ // 找到k个节点，切断链表，进行翻转
+            if (count == k){
                 next = cur.next;
+                cur.next = null;
+
                 midTail = midHead;
-
                 midHead = reverse(midHead);
-                tail.next = midHead;
-                tail = midTail;
 
-                midHead = next;
-                count = 1;
+                preTail.next = midHead;
+                preTail = midTail;
+
                 cur = next;
-            }else {
-                count++;
-                cur = cur.next;
+                midHead = cur;
+                count = (cur == null) ? 0 : 1;
             }
+            cur = cur.next;
+            count++;
         }
-        tail.next = midHead; // 可能最后不足k个
+        // 可能最后不足k个，也要拼接尾首
+        preTail.next = midHead;
 
         return head;
     }
 
     // 31
+    public void nextPermutation(int[] nums) {
+        int index = nums.length - 2;
+        while (index >= 0){
+            if (nums[index] < nums[index + 1]){
+                break;
+            }
+            index--;
+        }
+        if (index < 0){
+            reverse(nums, 0, nums.length - 1);
+            return;
+        }
 
+        for (int i = nums.length - 1; i > index; i--){
+            if (nums[i] > nums[index]){
+                swap(nums, index, i);
+                reverse(nums, index + 1, nums.length - 1);
+                break;
+            }
+        }
+    }
+    private void swap(int[] nums, int left, int right){
+        int temp = nums[left];
+        nums[left] = nums[right];
+        nums[right] = temp;
+    }
+    private void reverse(int[] nums, int left, int right){
+        while ( left < right){
+            swap(nums, left, right);
+            left++;
+            right--;
+        }
+    }
 }
