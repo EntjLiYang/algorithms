@@ -1,10 +1,7 @@
 import sun.text.normalizer.CharacterIteratorWrapper;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Solution {
     // 1 Two sum
