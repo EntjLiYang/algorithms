@@ -256,13 +256,137 @@ public class Solution {
         while (left <= right){
             if (nums[middle] == target){
                 return middle;
-            }else if (nums[middle] >= nums[left] && target >= nums[left] && target < nums[middle]){
-                right = middle - 1;
-            }else{
-                left = middle + 1;
+            }
+            if (nums[left] <= nums[middle]){
+                if (nums[left] <= target && target <= nums[middle]){
+                    right = middle - 1;
+                }else {
+                    left = middle + 1;
+                }
+            }else {
+                if (nums[middle] <= target && target <= nums[right]){
+                    left = middle + 1;
+                }else {
+                    right = middle - 1;
+                }
             }
             middle = left + (right - left) / 2;
         }
         return -1;
+    }
+
+    // 34
+    public int[] searchRange(int[] nums, int target) {
+        int[] result = new int[2];
+        result[0] = -1;
+        result[1] = -1;
+
+        int left = 0, right = nums.length - 1;
+        int middle = left + (right - left) / 2;
+        while (left <= right){
+            if (nums[middle] == target){
+                if (middle == 0 || nums[middle - 1] < nums[middle]){
+                    result[0] = middle;
+                    break;
+                }else {
+                    right = middle - 1;
+                }
+            }else if (nums[middle] > target){
+                right = middle - 1;
+            }else {
+                left = middle + 1;
+            }
+            middle = left + (right - left) / 2;
+        }
+
+        left = 0;
+        right = nums.length - 1;
+        middle = left + (right - left) / 2;
+        while (left <= right){
+            if (nums[middle] == target){
+                if (middle == nums.length - 1 || nums[middle + 1] > nums[middle]){
+                    result[1] = middle;
+                    break;
+                }else {
+                    left = middle + 1;
+                }
+            }else if (target < nums[middle]){
+                right = middle - 1;
+            }else {
+                left = middle + 1;
+            }
+            middle = left + (right - left) / 2;
+        }
+        return result;
+    }
+
+    // 42
+    public int trap(int[] height) {
+        if (height == null || height.length <= 2){
+            return 0;
+        }
+        int[] sums = getSums(height);
+        int[] biggers = getFirstBigger(height);
+        int maxWater = 0;
+
+        for (int i= 0; i < height.length;){
+            int rightRange = biggers[i];
+            if (rightRange != -1)
+                maxWater += (rightRange - i - 1) * height[i] - (sums[rightRange] - sums[i] - height[rightRange]);
+            i = rightRange;
+        }
+
+        biggers = getFirstBiggerStartInRight(height);
+        for (int i= height.length - 1; i >= 0;){
+            int leftRange = biggers[i];
+            if (leftRange != -1)
+                maxWater += (i - leftRange - 1) * height[leftRange] - (sums[leftRange] - sums[i] - height[leftRange]);
+            i = leftRange;
+        }
+        return maxWater;
+    }
+    private int[] getSums(int[] nums){
+        int[] result = new int[nums.length];
+        result[0] = nums[0];
+        for (int i = 1; i < nums.length; i++){
+            result[i] = result[i - 1] + nums[i];
+        }
+        return result;
+    }
+    private int[] getFirstBigger(int[] nums){
+        LinkedList<Integer> list = new LinkedList<>();
+        int[] result = new int[nums.length];
+
+        for (int i = nums.length - 1; i >= 0; i--){
+            while (!list.isEmpty() && nums[i] > list.peekFirst()){
+                list.pollFirst();
+            }
+            if (list.isEmpty()){
+                list.addFirst(i);
+                result[i] = -1;
+            }else if (nums[i] <= nums[list.peekFirst()]){
+                result[i] = list.peekFirst();
+                list.addFirst(i);
+            }
+        }
+        return result;
+    }
+    private int[] getFirstBiggerStartInRight(int[] nums){
+        LinkedList<Integer> list = new LinkedList<>();
+        int[] result = new int[nums.length];
+
+        for (int i = 0; i < nums.length; i++){
+            while (!list.isEmpty() && nums[i] > list.peekLast()){
+                list.pollLast();
+            }
+            if (list.isEmpty()){
+                list.addLast(i);
+                result[i] = -1;
+            }else if (nums[i] <= nums[list.peekLast()]){
+                result[i] = list.peekLast();
+                list.addLast(i);
+            }
+        }
+        return result;
     }
 }
