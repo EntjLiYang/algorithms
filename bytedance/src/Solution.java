@@ -1,7 +1,3 @@
-import sun.text.normalizer.CharacterIteratorWrapper;
-import sun.tools.jstat.Literal;
-
-import javax.swing.*;
 import java.util.*;
 
 public class Solution {
@@ -409,8 +405,8 @@ public class Solution {
     public int trap1(int[] height) {
         Stack<Integer> stack = new Stack<>();
         int sum = 0;
-        for (int i = 0; i< height.length; i++){
-            while (!stack.empty() && height[i] > height[stack.peek()]){
+        for (int i = 0; i < height.length; i++) {
+            while (!stack.empty() && height[i] > height[stack.peek()]) {
                 int cur = stack.pop();
                 sum += (i - stack.peek() - 1) * (Math.min(height[i], height[stack.peek()]) - height[cur]);
             }
@@ -425,7 +421,7 @@ public class Solution {
         boolean[][] dp = new boolean[s.length() + 1][p.length() + 1];
         // init dp
         dp[0][0] = true;
-        for (int i = 1; i <= p.length(); i++){
+        for (int i = 1; i <= p.length(); i++) {
             if (p.charAt(i) == '*')
                 dp[0][i] = true;
             else {
@@ -433,13 +429,13 @@ public class Solution {
             }
         }
 
-        for (int i = 1; i <= s.length(); i++){
-            for (int j = 1; j <= p.length(); j++){
-                if (p.charAt(j) == '*'){
+        for (int i = 1; i <= s.length(); i++) {
+            for (int j = 1; j <= p.length(); j++) {
+                if (p.charAt(j) == '*') {
                     dp[i][j] = dp[i][j - 1] || dp[i - 1][j];
-                }else if (p.charAt(j) == '?'){
+                } else if (p.charAt(j) == '?') {
                     dp[i][j] = dp[i - 1][j - 1];
-                }else {
+                } else {
                     dp[i][j] = s.charAt(i) == p.charAt(j) ? dp[i - 1][j - 1] : false;
                 }
             }
@@ -450,21 +446,21 @@ public class Solution {
     // 46
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
-        getAll(nums,new boolean[nums.length], new ArrayList<>(), 0, result);
+        getAll(nums, new boolean[nums.length], new ArrayList<>(), 0, result);
         return result;
     }
 
-    private void getAll(int[] nums, boolean[] used, List<Integer> curList, int curCount, List<List<Integer>> result){
-        if (curCount == nums.length){
+    private void getAll(int[] nums, boolean[] used, List<Integer> curList, int curCount, List<List<Integer>> result) {
+        if (curCount == nums.length) {
             result.add(curList);
             return;
         }
 
-        for (int i = 0; i < nums.length; i++){
-            if (!used[i]){
+        for (int i = 0; i < nums.length; i++) {
+            if (!used[i]) {
                 used[i] = true;
                 curList.add(nums[i]);
-                getAll(nums,used,curList,curCount+1,result);
+                getAll(nums, used, curList, curCount + 1, result);
 
                 curList.remove(curCount - 1);
                 used[i] = false;
@@ -481,16 +477,16 @@ public class Solution {
         return null;
     }
 
-    private boolean canPut(List<String> cur, int row, int col){
-        for (int r = 0; r < row; r++){
+    private boolean canPut(List<String> cur, int row, int col) {
+        for (int r = 0; r < row; r++) {
             if (cur.get(r).charAt(col) == 'Q')
                 return false;
         }
-        for (int r = row - 1, c = col - 1; r >= 0 && c >=0; r--, c--){
+        for (int r = row - 1, c = col - 1; r >= 0 && c >= 0; r--, c--) {
             if (cur.get(r).charAt(c) == 'Q')
                 return false;
         }
-        for (int r = row - 1, c = col + 1; r >= 0 && c < cur.get(0).length(); r--, c++){
+        for (int r = row - 1, c = col + 1; r >= 0 && c < cur.get(0).length(); r--, c++) {
             if (cur.get(r).charAt(c) == 'Q')
                 return false;
         }
@@ -498,4 +494,70 @@ public class Solution {
     }
 
     // 56
+    public int[][] merge(int[][] intervals) {
+        if (intervals.length == 0 || intervals.length == 1)
+            return intervals;
+        // sort
+        Arrays.sort(intervals, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+        });
+        // merge
+        List<int[]> res = new ArrayList<>();
+        res.add(intervals[0]);
+        for (int i = 1; i < intervals.length; i++) {
+            if (res.get(res.size() - 1)[1] >= intervals[i][0]) {
+                int[] pre = res.get(res.size() - 1);
+                pre[1] = Math.max(pre[1], intervals[i][1]);
+            } else {
+                res.add(intervals[i]);
+            }
+        }
+        return res.toArray(new int[res.size()][2]);
+    }
+
+    // 78
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        getAll(nums, 0, new ArrayList<>(), result);
+        return result;
+    }
+
+    private void getAll(int[] nums, int count, List<Integer> curSet, List<List<Integer>> result) {
+        if (count == nums.length) {
+            result.add(curSet);
+        }
+
+        getAll(nums, count + 1, curSet, result);
+        curSet.add(nums[count]);
+        getAll(nums, count + 1, curSet, result);
+        curSet.remove(curSet.size() - 1);
+    }
+
+    // 79
+    public boolean exist(char[][] board, String word) {
+
+    }
+
+    private boolean get(char[][] board, String word, int indexWord, int row, int col, boolean[][] used) {
+        if (indexWord > word.length())
+            return true;
+        if (row < 0 || row >= board.length || col < 0 || col >= board[0].length)
+            return false;
+
+        if (board[row][col] == word.charAt(indexWord)) {
+            used[row][col] = true;
+            // 或运算有剪枝的作用
+            if (get(board,word,indexWord+1,row - 1, col, used) ||
+                    get(board,word,indexWord+1, row,col - 1, used) ||
+                    get(board,word,indexWord+1,row + 1, col, used) ||
+                    get(board,word,indexWord+1, row,col + 1, used))
+                return true;
+
+            used[row][col] = false;
+        }
+        return false;
+    }
 }
