@@ -538,7 +538,7 @@ public class Solution {
 
     // 79
     public boolean exist(char[][] board, String word) {
-
+        return true;
     }
 
     private boolean get(char[][] board, String word, int indexWord, int row, int col, boolean[][] used) {
@@ -550,14 +550,197 @@ public class Solution {
         if (board[row][col] == word.charAt(indexWord)) {
             used[row][col] = true;
             // 或运算有剪枝的作用
-            if (get(board,word,indexWord+1,row - 1, col, used) ||
-                    get(board,word,indexWord+1, row,col - 1, used) ||
-                    get(board,word,indexWord+1,row + 1, col, used) ||
-                    get(board,word,indexWord+1, row,col + 1, used))
+            if (get(board, word, indexWord + 1, row - 1, col, used) ||
+                    get(board, word, indexWord + 1, row, col - 1, used) ||
+                    get(board, word, indexWord + 1, row + 1, col, used) ||
+                    get(board, word, indexWord + 1, row, col + 1, used))
                 return true;
 
             used[row][col] = false;
         }
         return false;
+    }
+
+    // 103
+    // 二叉树的层次遍历，通过队列实现
+    // 这个题目的特殊之处在于需要交替遍历队列，从右到左和从左到右交替
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> result = new LinkedList<>();
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        boolean leftToRight = true;
+        queue.addLast(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            List<Integer> curLevel = new LinkedList<>();
+            if (leftToRight) {
+                for (int i = 0; i < size; i++) {
+                    TreeNode curNode = queue.pollFirst();
+                    curLevel.add(curNode.val);
+                    if (curNode.left != null) queue.addLast(curNode.left);
+                    if (curNode.right != null) queue.addLast(curNode.right);
+                }
+                result.add(curLevel);
+                leftToRight = false;
+            } else {
+                for (int i = 0; i < size; i++) {
+                    TreeNode curNode = queue.pollLast();
+                    curLevel.add(curNode.val);
+                    if (curNode.right != null) queue.addFirst(curNode.right);
+                    if (curNode.left != null) queue.addFirst(curNode.left);
+                }
+                result.add(curLevel);
+                leftToRight = true;
+            }
+        }
+        return result;
+    }
+
+    // 105 通过前序遍历和中序遍历结果构造二叉树
+    // 通过递归构造
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return build(preorder, inorder, 0, 0, inorder.length - 1);
+    }
+
+    private TreeNode build(int[] preOrder, int[] inOrder, int index, int left, int right) {
+        if (left > right)
+            return null;
+
+        TreeNode cur = new TreeNode(preOrder[index]);
+        int tar = 0;
+        for (int i = left; i <= right; i++) {
+            if (preOrder[index] == inOrder[i]) {
+                tar = i;
+                break;
+            }
+        }
+        cur.left = build(preOrder, inOrder, index + 1, left, tar - 1);
+        cur.right = build(preOrder, inOrder, index + tar - left + 1, tar + 1, right);
+        return cur;
+    }
+    // 121
+
+    // 124
+    // 这个题目的意思真不清楚！
+    // 路径和是指从一个起点出发，可以向左或者向右得到路径的总和，但是要求同一个起点可以重复出发去找路径
+    // 但是路径中的点不能重复使用
+    public int maxPathSum(TreeNode root) {
+        max(root);
+        return maxPathSum;
+    }
+
+    private int maxPathSum = Integer.MIN_VALUE;
+    private HashMap<TreeNode, Integer> hashMap = new HashMap<>();
+
+    private int max(TreeNode root) { // 找到以root为根节点的单边最大路径和，不可以两边都加上，那么root节点就重复使用了，因为起点可以重复使用，路径中的其它节点不能重复使用
+        if (root == null)
+            return 0;
+
+        if (!hashMap.containsKey(root.left)) {
+            hashMap.put(root.left, max(root.left));
+        }
+        if (!hashMap.containsKey(root.right)) {
+            hashMap.put(root.right, max(root.right));
+        }
+        int left = root.val + hashMap.get(root.left);
+        int right = root.val + hashMap.get(root.right);
+
+        maxPathSum = Math.max(maxPathSum, Math.max(left, right));
+        maxPathSum = Math.max(maxPathSum, left + right - root.val);
+        maxPathSum = Math.max(maxPathSum, root.val);
+
+        return Math.max(root.val, Math.max(left, right));
+    }
+
+    // 139
+//    public boolean wordBreak(String s, List<String> wordDict) {
+//        HashSet<String> set = new HashSet<>();
+//        for (String word : wordDict) {
+//            set.add(word);
+//        }
+//        dp = new int[s.length()];
+//        return canSplit(s,0,set);
+//    }
+//    private int[] dp; // dp[i] s[i, s.length - 1]能够拆分为字典中的词 -1未计算 0不能拆 1可以拆
+//    // s[index, s.length - 1] 能否拆分为字典中的词
+//    private boolean canSplit(String s, int index, HashSet<String> set) {
+//        if (index == s.length())
+//            return true;
+//
+//        for (int i = index; i < s.length(); i++) {
+//            String curStr = s.substring(index, i + 1);
+//            if (set.contains(curStr)){
+//                boolean temp = false;
+//                if (dp[i] == -1 && (temp = canSplit(s, i + 1, set))){
+//                    dp[i] = temp ? 1 : 0;
+//                    if (dp[i] == 1)
+//                        return true;
+//                }
+//            }
+//        }
+//        return false;
+//    }
+    // 动态规划可以认为是记忆化搜索的循环写法，记忆化搜索是递归写法
+    // 其本质是回溯法中有重叠子问题，通过记录解的方式避免后续重复计算
+    // 而只要是回溯法就可以分析问题中是否有剪枝策略，因此动态规划也可以剪枝
+    // 比如已经找到问题的答案，直接返回，后续计算停止；此题中当前substring的子串长度大于字典中字符串最大长度后，内循环即可停止
+    public boolean wordBreak(String s, List<String> wordDict) {
+        boolean[] dp = new boolean[s.length() + 1];
+        dp[0] = true;
+        HashSet<String> set = new HashSet<>();
+        int maxLength = 0;
+        for (String word : wordDict) {
+            set.add(word);
+            maxLength = Math.max(maxLength, word.length());
+        }
+        for (int i = 1; i <= s.length(); i++) {
+            // dp[i]
+            for (int j = 0; j < i; j++) {
+                if (i - j > maxLength)
+                    break;
+                if (dp[j] && set.contains(s.substring(j, i))){
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[s.length()];
+    }
+
+
+    // 143
+    public void reorderList(ListNode head) {
+        ListNode p = head, q = head;
+        while (q != null && q.next != null){
+            q = q.next;
+            p = p.next;
+        }
+        ListNode head2 = reversePart(p);
+        ListNode prv = new ListNode(0);
+        ListNode newHead = prv;
+        while (head2 != null && head != null){
+            prv.next = head;
+            prv = prv.next;
+            prv.next = head2;
+            prv = prv.next;
+
+            head = head.next;
+            head2 = head2.next;
+        }
+        if (head2 != null){
+            prv.next = head2;
+            prv = prv.next;
+        }
+        prv.next = null;
+        newHead.next = null;
+    }
+    private ListNode reversePart(ListNode head) {
+        ListNode pre = null, next = null;
+        while (head != null){
+            next = head.next;
+            head.next = pre;
+            pre = head;
+            head = next;
+        }
+        return pre;
     }
 }
