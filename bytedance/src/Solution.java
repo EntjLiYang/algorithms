@@ -697,7 +697,7 @@ public class Solution {
             for (int j = 0; j < i; j++) {
                 if (i - j > maxLength)
                     break;
-                if (dp[j] && set.contains(s.substring(j, i))){
+                if (dp[j] && set.contains(s.substring(j, i))) {
                     dp[i] = true;
                     break;
                 }
@@ -710,14 +710,14 @@ public class Solution {
     // 143
     public void reorderList(ListNode head) {
         ListNode p = head, q = head;
-        while (q != null && q.next != null){
+        while (q != null && q.next != null) {
             q = q.next;
             p = p.next;
         }
         ListNode head2 = reversePart(p);
         ListNode prv = new ListNode(0);
         ListNode newHead = prv;
-        while (head2 != null && head != null){
+        while (head2 != null && head != null) {
             prv.next = head;
             prv = prv.next;
             prv.next = head2;
@@ -726,16 +726,17 @@ public class Solution {
             head = head.next;
             head2 = head2.next;
         }
-        if (head2 != null){
+        if (head2 != null) {
             prv.next = head2;
             prv = prv.next;
         }
         prv.next = null;
         newHead.next = null;
     }
+
     private ListNode reversePart(ListNode head) {
         ListNode pre = null, next = null;
-        while (head != null){
+        while (head != null) {
             next = head.next;
             head.next = pre;
             pre = head;
@@ -743,4 +744,97 @@ public class Solution {
         }
         return pre;
     }
+
+
+    // 4 寻找两个数组的中位数
+    // 暴力的思路，将两个数组合并成一个数组，然后通过数组长度得到中位数的索引
+    // 暴力优化空间复杂度，不需要将两个数组合并成一个更大的数组，只需要双指针遍历两个数组，找到中位数的索引，中位数索引index=(m+n)/2，统计两个指针扫过的数字数量，直到数量=index
+    // 题目要求时间复杂度是O(log(m+n))，而且题目给出的两个数组是有序(升序)，因此考虑二分的方式，才能得到目标的时间复杂度
+    // 具体怎么做呢？题目要求寻找中位数，而两个数组的总长度是已知的m+n，那么中位数要么是数组的第(m+n)/2 小数字（m+n为奇数时），要么是数组的第(m+n)/2 - 1 小和 (m+n)/2 小两个数字求平均
+    // 因此题目就是求两个数组整体第k小的数字，k=(m+n)/2 数组A 数组B 长度分别为m n
+    // 首先考虑一般的情况，比较数组A和数组B k/2 - 1索引处的两个数字的大小，如果A[k/2 - 1] < B[k/2 - 1] 则比A[k/2 - 1]小的数最多有k-2个
+    // 因此A[k/2 - 1]处的数字不可能是第k小，最多是第k-1小，而且A[0,...,k/2 - 1]的k/2个数字都不可能是第k小的数字，删除数组A[0,...,k/2-1]的所有数字，更新A为A[k/2, ...]
+    // 减少了一半的搜索空间，因此能够达到log级别
+    // B[k/2 - 1] < A[k/2 - 1]的情况与上面类似
+    // B[k/2 - 1] = A[k/2 - 1]的情况可以归为 < 的情况
+    // 因为已经删掉了 k / 2个数组，那么k需要更新为k / 2
+
+    // 特殊情况处理，假如有一个数组已经是空数组了，那么第k小的数字便是另外一个非空数组的第k个元素
+    // 如果通过k/2 -1数组索引越界，那么选择该数组的最后一个元素进行比较
+    // 如果k等于1，则只需要将两个数组当前元素取较小值返回
+
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int m = nums1.length;
+        int n = nums2.length;
+        int totalLength = m + n;
+        int k = totalLength / 2;
+        if (totalLength % 2 == 0) {
+            // 偶数 k-1 k
+            return getKthMinNum(nums1, nums2, k) + getKthMinNum(nums1, nums2, k - 1) * 0.5;
+        } else {
+            // 奇数 k
+            return getKthMinNum(nums1, nums2, k);
+        }
+    }
+
+    // 得到两个数组整体第k小的数
+    private int getKthMinNum(int[] num1, int[] num2, int k) {
+        int startNum1 = 0;
+        int startNum2 = 0;
+        int indexNum1 = 0;
+        int indexNum2 = 0;
+        int half = 0;
+        while (true) {
+            if (startNum1 == num1.length) {
+                return num2[startNum2 + k - 1];
+            }
+            if (startNum2 == num2.length) {
+                return num1[startNum1 + k - 1];
+            }
+            if (k == 1) {
+                return Math.min(num1[startNum1], num2[startNum2]);
+            }
+
+            half = k / 2;
+            indexNum1 = Math.min(num1.length, startNum1 + half) - 1;
+            indexNum2 = Math.min(num2.length, startNum2 + half) - 1;
+            if (num1[indexNum1] <= num2[indexNum2]) {
+                startNum1 = indexNum1 + 1;
+                k = k - (indexNum1 - startNum1 + 1);
+            } else {
+                startNum2 = indexNum2 + 1;
+                k = k - (indexNum2 - startNum2 + 1);
+            }
+        }
+    }
+
+    // 剑指offer 39 投票法
+    // 数组中一定存在众数，数量超过数组大小一半的数是众数
+    public int majorityElement(int[] nums) {
+        int zhongshu = nums[0];
+        int votes = 1;
+        for (int i = 1; i < nums.length; i++){
+            if (votes == 0){
+                zhongshu = nums[i];
+                continue;
+            }
+            if (zhongshu == nums[i]){
+                votes++;
+            }else {
+                votes--;
+            }
+        }
+        return zhongshu;
+    }
+
+    // 剑指offer 41
+    // 目标是创建一个数据结构，能够快速得到中位数，并且支持向其中插入元素
+    // 如果用数组维护一个有序序列，常数获得中位数，但是插入元素是线性级别的
+
+    // 用两个堆来构造，假如该升序数组分为小的一半，和大的一半，那么用一个大顶堆保存小的一半，用一个小顶堆保存大的一半，并分别记录大顶堆数量m 小顶堆数量n
+    // 维护的目标时，数据总量是偶数，则m==n，数据总量为奇数，m+1=n
+    // 因此插入时，当前m==n，则将该数add到大顶堆，然后弹出大顶堆顶元素并插入小顶堆
+    // m + 1 == n，则将该数add到小顶堆，然后弹出小顶堆元素并插入大顶堆
+
+    // 获取中位数时，判断当前m==n与否，相等则各取两个堆的堆顶并求平均；不想等则取小顶堆堆顶元素
 }
