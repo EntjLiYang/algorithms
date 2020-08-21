@@ -813,14 +813,14 @@ public class Solution {
     public int majorityElement(int[] nums) {
         int zhongshu = nums[0];
         int votes = 1;
-        for (int i = 1; i < nums.length; i++){
-            if (votes == 0){
+        for (int i = 1; i < nums.length; i++) {
+            if (votes == 0) {
                 zhongshu = nums[i];
                 continue;
             }
-            if (zhongshu == nums[i]){
+            if (zhongshu == nums[i]) {
                 votes++;
-            }else {
+            } else {
                 votes--;
             }
         }
@@ -837,4 +837,134 @@ public class Solution {
     // m + 1 == n，则将该数add到小顶堆，然后弹出小顶堆元素并插入大顶堆
 
     // 获取中位数时，判断当前m==n与否，相等则各取两个堆的堆顶并求平均；不想等则取小顶堆堆顶元素
+
+
+    // 剑指offer19
+    // 如果不好考虑dp的转移方程，可以先自顶向下考虑递归解法，寻找重叠子问题，得到记忆化搜索解法，动态规范解法也就得到了
+    public boolean isMatch2(String s, String p) {
+        boolean[][] dp = new boolean[s.length() + 1][p.length() + 1];
+        dp[0][0] = true;
+        if (p.charAt(0) == '*') {
+            dp[0][1] = true;
+        }
+        if (p.charAt(1) == '*') {
+            dp[0][1] = true;
+            dp[0][2] = true;
+        }
+
+        for (int i = 1; i <= s.length(); i++) {
+            for (int j = 1; j <= p.length(); j++) {
+                // pj .
+                if (p.charAt(j) == '.') {
+                    dp[i][j] = dp[i - 1][j - 1];
+                }
+                // pj *
+                else if (p.charAt(j) == '*') {
+                    if (p.charAt(j - 1) == '.' || p.charAt(j - 1) == s.charAt(i)) {
+                        dp[i][j] = dp[i - 1][j];
+                    } else {
+                        dp[i][j] = dp[i][j - 1];
+                    }
+                }
+                // pj 普通字符
+                else {
+                    if (p.charAt(j) == s.charAt(i)) {
+                        dp[i][j] = dp[i - 1][j - 1];
+                    }
+                }
+            }
+        }
+        return dp[s.length()][p.length()];
+    }
+
+    // 剑指offer20
+    public boolean isNumber(String s) {
+        if (s == null || s.length() == 0) {
+            return false;
+        }
+
+        int pre = 0;// 1数字 2小数点 3正负号 4e
+
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) >= '0' && s.charAt(i) <= '9'){
+                pre = 1;
+            }else if (s.charAt(i) == '.'){
+                if (pre != 1){
+                    return false;
+                }
+                pre = 2;
+            }else if (s.charAt(i) == '+' || s.charAt(i) == '-'){
+                if (pre == 1 || pre == 2 || pre == 3){
+                    return false;
+                }
+                pre = 3;
+            }else if (s.charAt(i) == 'e'){
+                //if (pre)
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String inputStr = in.nextLine();
+        String[] inputs = inputStr.split(",");
+        String str = inputs[0];
+        int n = Integer.valueOf(inputs[1]);
+        int lengthOfStr = str.length();
+
+        int rows = n + ((lengthOfStr - 2 * n + 1) / (2 * n - 3) + 1) * (n - 1);
+        String[][] map = new String[rows][n];
+        for (int i = 0; i < rows; i++){
+            Arrays.fill(map[i], "#");
+        }
+
+        int flag = 1; // 1 向右 -1 向左
+        int distance = n - 1;
+        int row = 0, col = 0;
+        for (int i = 0; i < lengthOfStr;){
+            String curLeft = str.substring(i, i+1);
+            String curRight;
+            if (i + 1 < lengthOfStr && (col != (n - 1) / 2)){
+                curRight = str.substring(i+1, i+2);
+                i += 2;
+            }else {
+                curRight = str.substring(i, i+1);
+                i++;
+            }
+
+            map[row][col] = curLeft;
+            map[row][col+distance] = curRight;
+            if (flag == 1){
+                if (col == (n - 1) / 2){
+                    flag = flag * -1;
+                    row++;
+                    col--;
+                }else {
+                    row++;
+                    col++;
+                }
+            }else {
+                if (col == 0){
+                    flag = flag * -1;
+                    row++;
+                    col++;
+                }else {
+                    row++;
+                    col--;
+                }
+            }
+            distance = distance - flag * 2;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < map.length; j++){
+                if (!map[j][i].equals("#")){
+                    sb.append(map[j][i]);
+                }
+            }
+        }
+        System.out.println(sb.toString());
+    }
 }
