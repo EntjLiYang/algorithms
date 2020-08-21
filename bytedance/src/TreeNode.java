@@ -1,3 +1,5 @@
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+
 /**
  * @Author liyang
  * @Date 2020/7/24 8:26 下午
@@ -10,5 +12,15 @@ public class TreeNode {
 
     TreeNode(int x) {
         val = x;
+    }
+
+    public static void main(String[] args) {
+        
+    }
+    public int getVal(int index, Integer index2){
+        return 1;
+    }
+    public int getVal(Integer index, int index2){
+        return 1;
     }
 }

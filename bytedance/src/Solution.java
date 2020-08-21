@@ -813,14 +813,14 @@ public class Solution {
     public int majorityElement(int[] nums) {
         int zhongshu = nums[0];
         int votes = 1;
-        for (int i = 1; i < nums.length; i++){
-            if (votes == 0){
+        for (int i = 1; i < nums.length; i++) {
+            if (votes == 0) {
                 zhongshu = nums[i];
                 continue;
             }
-            if (zhongshu == nums[i]){
+            if (zhongshu == nums[i]) {
                 votes++;
-            }else {
+            } else {
                 votes--;
             }
         }
@@ -837,4 +837,111 @@ public class Solution {
     // m + 1 == n，则将该数add到小顶堆，然后弹出小顶堆元素并插入大顶堆
 
     // 获取中位数时，判断当前m==n与否，相等则各取两个堆的堆顶并求平均；不想等则取小顶堆堆顶元素
+
+    // 剑指offer 20
+    // 数字有效字符是 0-9 e . +-
+    // 并且存在一些规则 e只能有一个e的前面只能是数字
+    // . 只能有一个，且其前置所有字符中不能有e，其前一个字符和后一个字符必须是数字
+    // +- 在e的左右各自只能有一个
+    public boolean isNumber(String s) {
+        boolean preE = false;
+        boolean preDot = false;
+        boolean preFlag = false;
+
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (ch == 'e') {
+                if (i == 0 || preE || s.charAt(i - 1) == '+' || s.charAt(i - 1) == '-' || s.charAt(i - 1) == '.') {
+                    return false;
+                }
+                preE = true;
+            } else if (ch == '.') {
+                if (i == 0 || preDot || preE || s.charAt(i - 1) == '+' || s.charAt(i - 1) == '-') {
+                    return false;
+                }
+                preDot = true;
+            } else if (ch == '+' || ch == '-') {
+                if (i >= 1 && s.charAt(i - 1) != 'e')
+                    return false;
+                preFlag = true;
+            } else if (ch >= '0' && ch <= '9') {
+
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // 剑指offer 67
+    public int strToInt(String str) {
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
+        int start = getFirstValiedIndex(str);
+        if (start == str.length()) {
+            return 0;
+        }
+
+        if (str.charAt(start) != '+' && str.charAt(start) != '-' && str.charAt(start) < '0' && str.charAt(start) > '9') {
+            return 0;
+        }
+        int flag = 0; // 0 无符号 1 正好 -1 负号
+        if (str.charAt(start) == '+' || str.charAt(start) == '-') {
+            flag = str.charAt(start) == '+' ? 1 : -1;
+            start++;
+        }
+
+        int end = getValiedNums(str, start);
+        int num = getNum(str, start, end);
+        return flag == 0 ? num : num * flag;
+    }
+
+    private int getNum(String string, int start, int end) {
+        int result = 0;
+        for (int i = start; i <= end; i++) {
+            result = result * 10 + (string.charAt(i) - '0');
+        }
+        return result;
+    }
+
+    private int getValiedNums(String string, int start) {
+        while (start < string.length()) {
+            if (string.charAt(start) < '0' || string.charAt(start) > '9') {
+                break;
+            }
+        }
+        return start;
+    }
+
+    private int getFirstValiedIndex(String string) {
+        int index = 0;
+        while (index < string.length()) {
+            if (string.charAt(index) != ' ') {
+                break;
+            }
+        }
+        return index;
+    }
+
+    // 剑指offer 14 - I
+    public int cuttingRope(int n) {
+        long[] dp = new long[n + 1];
+        dp[2] = 1l;
+        for (int i = 3; i <= n; i++) {
+            // dp[i]
+            long temp = 0l;
+            for (int j = 1; j <= i - 2; j++) {
+                temp = Math.max(temp, Math.max(j * (i - j), j * dp[i - j]));
+            }
+            dp[i] = temp;
+        }
+        return (int) (dp[n] % 1000000007);
+    }
+
+
+
+
+
+
 }
