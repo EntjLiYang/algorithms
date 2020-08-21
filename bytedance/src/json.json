@@ -1,0 +1,352 @@
+{
+  "defaultRD": [
+    "mengzhenbin",
+    "yinjunchao",
+    "huanghuajin",
+    "wuchaoxiang",
+    "jiaochunlong",
+    "gushuai",
+    "wangshipu",
+    "huiyan",
+    "dunhongqin",
+    "lijiaheng03",
+    "gengyunchong",
+    "huangzhun",
+    "zhengshaogang",
+    "songyulong04",
+    "chencheng28",
+    "zhangyongzhi03",
+    "sunzhipeng07",
+    "lixueliang03",
+    "jinyue08",
+    "liyang201"
+  ],
+  "defaultQA": [],
+  "defaultPM": [],
+  "defaultReceivers": {
+    "parent": [
+      "defaultRD",
+      "defaultQA",
+      "defaultPM"
+    ],
+    "others": []
+  },
+  "defaultCustomize": {
+    "suanzhang": {
+      "parent": [],
+      "others": [
+        "jiaochunlong",
+        "gushuai",
+        "huangzhun",
+        "jinyue08",
+        "dunhongqin","yinjunchao","songyulong04","zhangyongzhi03","zhengshaogang","mengzhenbin"
+      ]
+    },
+    "chuzhang": {
+      "parent": [],
+      "others": [
+        "yinjunchao",
+        "songyulong04",
+        "wuchaoxiang",
+        "sunzhipeng07",
+        "jiaochunlong","dunhongqin","zhangyongzhi03","zhengshaogang","mengzhenbin"
+      ]
+    },
+    "jiezhang": {
+      "parent": [],
+      "others": [
+        "dunhongqin",
+        "gengyunchong",
+        "huanghuajin",
+        "jiaochunlong","yinjunchao","songyulong04","zhangyongzhi03","zhengshaogang","mengzhenbin"
+      ]
+    },
+    "zhongtai": {
+      "parent": [],
+      "others": [
+        "wangshipu",
+        "yinjunchao",
+        "lixueliang03",
+        "zhangyongzhi03",
+        "jiaochunlong","dunhongqin","songyulong04","zhengshaogang","mengzhenbin"
+      ]
+    },
+    "zhicheng": {
+      "parent": [],
+      "others": [
+        "zhengshaogang",
+        "lijiaheng03",
+        "liyang201",
+        "huiyan",
+        "jiaochunlong","dunhongqin","yinjunchao","songyulong04","zhangyongzhi03","mengzhenbin"
+      ]
+    }
+  },
+  "appKeys": {
+    "com.sankuai.zc.pos.settledatabus": {
+      "defaultList": {
+        "parent": [
+          "defaultRD"
+        ],
+        "others": []
+      },
+      "biz": {},
+      "phoneAlarmList": {
+        "parent": [
+          "suanzhang"
+        ],
+        "others": []
+      }
+    },
+    "com.sankuai.sdptsettle.settle.adjustvoucher": {
+      "defaultList": {
+        "parent": [
+          "defaultRD"
+        ],
+        "others": []
+      },
+      "biz": {},
+      "phoneAlarmList": {
+        "parent": [
+          "suanzhang"
+        ],
+        "others": []
+      }
+    },
+    "com.sankuai.zc.settle.clear": {
+      "defaultList": {
+        "parent": [
+          "defaultRD"
+        ],
+        "others": []
+      },
+      "biz": {},
+      "phoneAlarmList": {
+        "parent": [
+          "suanzhang"
+        ],
+        "others": []
+      }
+    },
+    "com.sankuai.sdptsettle.settle.agent": {
+      "defaultList": {
+        "parent": [
+          "defaultRD"
+        ],
+        "others": []
+      },
+      "biz": {},
+      "phoneAlarmList": {
+        "parent": [
+          "suanzhang"
+        ],
+        "others": [
+          "wuchaoxiang"
+        ]
+      }
+    },
+    "com.sankuai.sdptsettle.settle.fee": {
+      "defaultList": {
+        "parent": [
+          "defaultRD"
+        ],
+        "others": []
+      },
+      "biz": {},
+      "phoneAlarmList": {
+        "parent": [
+          "suanzhang"
+        ],
+        "others": [
+          "lijiaheng03"
+        ]
+      }
+    },
+
+    "com.sankuai.zc.pos.settletradedetail": {
+      "defaultList": {
+        "parent": [
+          "defaultRD"
+        ],
+        "others": []
+      },
+      "biz": {},
+      "phoneAlarmList": {
+        "parent": [
+          "chuzhang"
+        ],
+        "others": []
+      }
+    },
+    "com.sankuai.zc.settle.api": {
+      "defaultList": {
+        "parent": [
+          "defaultRD"
+        ],
+        "others": []
+      },
+      "biz": {},
+      "phoneAlarmList": {
+        "parent": [
+          "chuzhang"
+        ],
+        "others": []
+      }
+    },
+    "com.sankuai.zc.settle.bill": {
+      "defaultList": {
+        "parent": [
+          "defaultRD"
+        ],
+        "others": []
+      },
+      "biz": {},
+      "phoneAlarmList": {
+        "parent": [
+          "chuzhang"
+        ],
+        "others": []
+      }
+    },
+
+    "com.sankuai.sdptsettle.settle.interval": {
+      "defaultList": {
+        "parent": [
+          "defaultRD"
+        ],
+        "others": []
+      },
+      "biz": {},
+      "phoneAlarmList": {
+        "parent": [
+          "jiezhang"
+        ],
+        "others": []
+      }
+    },
+    "com.sankuai.sdpt.settle.wallet": {
+      "defaultList": {
+        "parent": [
+          "defaultRD"
+        ],
+        "others": []
+      },
+      "biz": {},
+      "phoneAlarmList": {
+        "parent": [
+          "jiezhang"
+        ],
+        "others": []
+      }
+    },
+    "com.sankuai.sdpt.settle.exchange": {
+      "defaultList": {
+        "parent": [
+          "defaultRD"
+        ],
+        "others": []
+      },
+      "biz": {},
+      "phoneAlarmList": {
+        "parent": [
+          "jiezhang"
+        ],
+        "others": [
+          "chenheng28"
+        ]
+      }
+    },
+    "com.sankuai.zc.pos.settlecenter": {
+      "defaultList": {
+        "parent": [
+          "defaultRD"
+        ],
+        "others": []
+      },
+      "biz": {},
+      "phoneAlarmList": {
+        "parent": [
+          "jiezhang"
+        ],
+        "others": []
+      }
+    },
+
+    "com.sankuai.sdpt.ztsettle.center": {
+      "defaultList": {
+        "parent": [
+          "defaultRD"
+        ],
+        "others": []
+      },
+      "biz": {},
+      "phoneAlarmList": {
+        "parent": [
+          "zhongtai"
+        ],
+        "others": []
+      }
+    },
+    "com.sankuai.sdptztsettle.search": {
+      "defaultList": {
+        "parent": [
+          "defaultRD"
+        ],
+        "others": []
+      },
+      "biz": {},
+      "phoneAlarmList": {
+        "parent": [
+          "zhongtai"
+        ],
+        "others": []
+      }
+    },
+    "com.sankuai.sdpt.ztsettle.front": {
+      "defaultList": {
+        "parent": [
+          "defaultRD"
+        ],
+        "others": []
+      },
+      "biz": {},
+      "phoneAlarmList": {
+        "parent": [
+          "zhongtai"
+        ],
+        "others": []
+      }
+    },
+
+    "com.sankuai.zc.settle.settlerisk": {
+      "defaultList": {
+        "parent": [
+          "defaultRD"
+        ],
+        "others": []
+      },
+      "biz": {},
+      "phoneAlarmList": {
+        "parent": [
+          "zhicheng"
+        ],
+        "others": []
+      }
+    },
+    "com.sankuai.zc.pos.settleadmin": {
+      "defaultList": {
+        "parent": [
+          "defaultRD"
+        ],
+        "others": []
+      },
+      "biz": {},
+      "phoneAlarmList": {
+        "parent": [
+          "zhicheng"
+        ],
+        "others": []
+      }
+    }
+  }
+}

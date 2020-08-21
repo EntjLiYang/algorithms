@@ -1,0 +1,286 @@
+{
+  "defaultReceivers": [
+    "mengzhenbin",
+    "yinjunchao",
+    "huanghuajin",
+    "wuchaoxiang",
+    "jiaochunlong",
+    "gushuai",
+    "wangshipu",
+    "huiyan",
+    "dunhongqin",
+    "lijiaheng03",
+    "gengyunchong",
+    "huangzhun",
+    "zhengshaogang",
+    "songyulong04",
+    "chencheng28",
+    "zhangyongzhi03",
+    "sunzhipeng07",
+    "lixueliang03",
+    "jinyue08",
+    "liyang201"
+  ],
+  "groups": {
+    "suanzhang": [
+      "jiaochunlong",
+      "gushuai",
+      "huangzhun",
+      "jinyue08",
+      "lijiaheng03"
+    ],
+    "chuzhang": [
+      "songyulong04",
+      "wuchaoxiang",
+      "sunzhipeng07"
+    ],
+    "jiezhang": [
+      "dunhongqin",
+      "gengyunchong",
+      "huanghuajin",
+      "chenheng28",
+      "zhangyongzhi03"
+    ],
+    "zhongtai": [
+      "yinjunchao",
+      "wangshipu",
+      "lixueliang03",
+      "zhangyongzhi03"
+    ],
+    "zhicheng": [
+      "zhengshaogang",
+      "lijiaheng03",
+      "liyang201",
+      "huiyan"
+    ],
+    "guize": [
+      "zhangyongzhi03",
+      "yinjunchao"
+    ],
+    "defaultAlarmReceivers": [
+      "jiaochunlong",
+      "yinjunchao",
+      "songyulong04",
+      "zhangyongzhi03",
+      "zhengshaogang",
+      "mengzhenbin"
+    ]
+  },
+  "appKeys": {
+    "com.sankuai.zc.pos.settledatabus": {
+      "noticeReceivers": [
+        "groups.suanzhang",
+        "gushuai"
+      ],
+      "alarmReceivers": [
+        "groups.suanzhang",
+        "gushuai",
+        "groups.defaultAlarmReceivers"
+      ],
+      "bizCodes": {
+      }
+    },
+    "com.sankuai.sdptsettle.settle.adjustvoucher": {
+      "noticeReceivers": [
+        "groups.suanzhang",
+        "gushuai"
+      ],
+      "alarmReceivers": [
+        "groups.suanzhang",
+        "gushuai",
+        "groups.defaultAlarmReceivers"
+      ],
+      "bizCodes": {
+      }
+    },
+    "com.sankuai.zc.settle.clear": {
+      "noticeReceivers": [
+        "groups.suanzhang",
+        "jiaochunlong"
+      ],
+      "alarmReceivers": [
+        "groups.suanzhang",
+        "jiaochunlong",
+        "groups.defaultAlarmReceivers"
+      ],
+      "bizCodes": {
+      }
+    },
+    "com.sankuai.sdptsettle.settle.agent": {
+      "noticeReceivers": [
+        "groups.suanzhang",
+        "wuchaoxiang"
+      ],
+      "alarmReceivers": [
+        "groups.suanzhang",
+        "wuchaoxiang",
+        "groups.defaultAlarmReceivers"
+      ],
+      "bizCodes": {
+      }
+    },
+    "com.sankuai.sdptsettle.settle.fee": {
+      "noticeReceivers": [
+        "groups.suanzhang",
+        "huangzhun"
+      ],
+      "alarmReceivers": [
+        "groups.suanzhang",
+        "huangzhun",
+        "groups.defaultAlarmReceivers"
+      ],
+      "bizCodes": {
+      }
+    },
+
+    "com.sankuai.zc.pos.settletradedetail": {
+      "noticeReceivers": [
+        "groups.chuzhang",
+        "gushuai"
+      ],
+      "alarmReceivers": [
+        "groups.chuzhang",
+        "gushuai",
+        "groups.defaultAlarmReceivers"
+      ],
+      "bizCodes": {
+      }
+    },
+    "com.sankuai.zc.settle.api": {
+      "noticeReceivers": [
+        "groups.chuzhang",
+        "songyulong04"
+      ],
+      "alarmReceivers": [
+        "groups.chuzhang",
+        "songyulong04",
+        "groups.defaultAlarmReceivers"
+      ],
+      "bizCodes": {
+      }
+    },
+    "com.sankuai.zc.settle.bill": {
+      "noticeReceivers": [
+        "groups.chuzhang",
+        "songyulong04"
+      ],
+      "alarmReceivers": [
+        "groups.chuzhang",
+        "songyulong04",
+        "groups.defaultAlarmReceivers"
+      ],
+      "bizCodes": {
+      }
+    },
+
+    "com.sankuai.sdptsettle.settle.interval": {
+      "noticeReceivers": [
+        "groups.jiezhang",
+        "gengyunchong"
+      ],
+      "alarmReceivers": [
+        "groups.jiezhang",
+        "gengyunchong",
+        "groups.defaultAlarmReceivers"
+      ],
+      "bizCodes": {
+      }
+    },
+    "com.sankuai.sdpt.settle.wallet": {
+      "noticeReceivers": [
+        "groups.jiezhang",
+        "huanghuajin"
+      ],
+      "alarmReceivers": [
+        "groups.jiezhang",
+        "huanghuajin",
+        "groups.defaultAlarmReceivers"
+      ],
+      "bizCodes": {
+      }
+    },
+    "com.sankuai.sdpt.settle.exchange": {
+      "noticeReceivers": [
+        "groups.jiezhang",
+        "chenheng28"
+      ],
+      "alarmReceivers": [
+        "groups.jiezhang",
+        "chenheng28",
+        "groups.defaultAlarmReceivers"
+      ],
+      "bizCodes": {
+      }
+    },
+    "com.sankuai.zc.pos.settlecenter": {
+      "noticeReceivers": [
+        "groups.jiezhang",
+        "huanghuajin"
+      ],
+      "alarmReceivers": [
+        "groups.jiezhang",
+        "huanghuajin",
+        "groups.defaultAlarmReceivers"
+      ],
+      "bizCodes": {
+      }
+    },
+
+    "com.sankuai.sdpt.ztsettle.center": {
+      "noticeReceivers": [
+        "groups.zhongtai",
+        "wangshipu"
+      ],
+      "alarmReceivers": [
+        "groups.zhongtai",
+        "wangshipu",
+        "groups.defaultAlarmReceivers"
+      ],
+      "bizCodes": {
+        "bizCode_1": [
+        ]
+      }
+    },
+
+    "com.sankuai.zc.settle.settlerisk": {
+      "noticeReceivers": [
+        "groups.zhicheng",
+        "zhengshaogang"
+      ],
+      "alarmReceivers": [
+        "groups.zhicheng",
+        "zhengshaogang",
+        "groups.defaultAlarmReceivers"
+      ],
+      "bizCodes": {
+      }
+    },
+    "com.sankuai.zc.pos.settleadmin": {
+      "noticeReceivers": [
+        "groups.zhicheng",
+        "huiyan"
+      ],
+      "alarmReceivers": [
+        "groups.zhicheng",
+        "huiyan",
+        "groups.defaultAlarmReceivers"
+      ],
+      "bizCodes": {
+      }
+    },
+
+    "com.sankuai.zc.settle.unit": {
+      "noticeReceivers": [
+        "groups.guize",
+        "zhangyongzhi03"
+      ],
+      "alarmReceivers": [
+        "groups.guize",
+        "zhangyongzhi03",
+        "groups.defaultAlarmReceivers"
+      ],
+      "bizCodes": {
+      }
+    }
+  }
+}
